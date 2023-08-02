@@ -53,7 +53,7 @@ class RecompensasTabContainerScreenState
                 title: Padding(
                     padding: getPadding(left: 5),
                     child: Row(children: [
-                      AppbarSubtitle(text: "Prev. Title"),
+                      AppbarSubtitle(text: "Voltar"),
                       AppbarTitle(
                           text: "Center Title", margin: getMargin(left: 45))
                     ])),

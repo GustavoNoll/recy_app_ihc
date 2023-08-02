@@ -28,21 +28,18 @@ class HomeScreen extends StatelessWidget {
                 leading: AppbarImage(
                     height: getVerticalSize(24),
                     width: getHorizontalSize(18),
-                    svgPath: ImageConstant.imgArrowleft,
                     margin: getMargin(left: 7, top: 9, bottom: 9),
-                    onTap: () {
-                      onTapArrowleft6(context);
-                    }),
+                    ),
                 title: Padding(
                     padding: getPadding(left: 5),
                     child: Row(children: [
-                      AppbarSubtitle(text: "Prev. Title"),
+                      AppbarSubtitle(text: "                  "),
                       AppbarTitle(
-                          text: "Center Title", margin: getMargin(left: 45))
+                          text: "RecyAPP", margin: getMargin(left: 45))
                     ])),
                 actions: [
                   AppbarSubtitle(
-                      text: "Right Title",
+                      text: "Pontos",
                       margin:
                           getMargin(left: 16, top: 11, right: 16, bottom: 9))
                 ],

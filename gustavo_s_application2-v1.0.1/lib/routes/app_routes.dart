@@ -7,6 +7,7 @@ import 'package:gustavo_s_application2/presentation/recompensa_screen/recompensa
 import 'package:gustavo_s_application2/presentation/recompensas_tab_container_screen/recompensas_tab_container_screen.dart';
 import 'package:gustavo_s_application2/presentation/artigo_screen/artigo_screen.dart';
 import 'package:gustavo_s_application2/presentation/home_screen/home_screen.dart';
+import 'package:gustavo_s_application2/presentation/enderecos_page/enderecos_page.dart';
 import 'package:gustavo_s_application2/presentation/app_navigation_screen/app_navigation_screen.dart';
 
 class AppRoutes {
@@ -34,6 +35,7 @@ class AppRoutes {
   static const String appNavigationScreen = '/app_navigation_screen';
 
   static Map<String, WidgetBuilder> routes = {
+    enderecosPage: (context) => EnderecosPage(),
     enderecosContainerScreen: (context) => EnderecosContainerScreen(),
     sucessoScreen: (context) => SucessoScreen(),
     agendarScreen: (context) => AgendarScreen(),
