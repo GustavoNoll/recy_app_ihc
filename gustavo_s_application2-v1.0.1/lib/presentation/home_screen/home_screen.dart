@@ -1,3 +1,5 @@
+import 'package:gustavo_s_application2/widgets/base_button.dart';
+
 import '../home_screen/widgets/home_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gustavo_s_application2/core/app_export.dart';
@@ -9,6 +11,27 @@ import 'package:gustavo_s_application2/widgets/app_bar/custom_app_bar.dart';
 import 'package:gustavo_s_application2/widgets/custom_bottom_bar.dart';
 import 'package:gustavo_s_application2/widgets/custom_elevated_button.dart';
 import 'package:gustavo_s_application2/routes/app_routes.dart';
+import 'package:flutter/material.dart';
+
+class MyButton extends CustomElevatedButton {
+  MyButton({required String text, String? icon, VoidCallback? onTap}) : super(
+    text: text,
+    leftIcon: Container(
+      margin: getMargin(right: 10),
+      child: icon == null ? null : CustomImageView(
+          svgPath: icon,
+          height: getVerticalSize(22),
+          width: getHorizontalSize(20),
+          margin: getMargin(top: 11, bottom: 11)
+      ),
+    ),
+    buttonStyle: CustomButtonStyles.fillLightblueA700
+        .copyWith(fixedSize: MaterialStateProperty.all<Size>(
+        Size(getHorizontalSize(181), getVerticalSize(50)))),
+    buttonTextStyle: CustomTextStyles.bodyLargeRobotoMonoWhiteA700,
+    onTap: onTap,
+  );
+}
 
 // ignore_for_file: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -26,10 +49,10 @@ class HomeScreen extends StatelessWidget {
                 height: getVerticalSize(42),
                 leadingWidth: 25,
                 leading: AppbarImage(
-                    height: getVerticalSize(24),
-                    width: getHorizontalSize(18),
-                    margin: getMargin(left: 7, top: 9, bottom: 9),
-                    ),
+                  height: getVerticalSize(24),
+                  width: getHorizontalSize(18),
+                  margin: getMargin(left: 7, top: 9, bottom: 9),
+                ),
                 title: Padding(
                     padding: getPadding(left: 5),
                     child: Row(children: [
@@ -37,11 +60,19 @@ class HomeScreen extends StatelessWidget {
                       AppbarTitle(
                           text: "RecyAPP", margin: getMargin(left: 45))
                     ])),
-                actions: [
+                actions: <Widget>[
                   AppbarSubtitle(
-                      text: "Pontos",
-                      margin:
-                          getMargin(left: 16, top: 11, right: 16, bottom: 9))
+                    text: "Pontos",
+                    margin:
+                    getMargin(left: 16, top: 11, right: 16, bottom: 9),
+                    onTap: () {
+                      print("nav accessed");
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.recompensasPage,
+                      );
+                    },
+                  )
                 ],
                 styleType: Style.bgOutline),
             body: Container(
@@ -51,58 +82,36 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                          padding: getPadding(left: 10, top: 10),
+                          padding: getPadding(left: 10, right: 10, top: 10, bottom: 10),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomElevatedButton(
+                                MyButton(
+                                    text: "Agendar Coleta",
+                                    icon: ImageConstant.imgSend,
+                                    onTap: () {
+                                      // Função para trocar de tela ao pressionar o botão
+                                      Navigator.pushNamed(
+                                          context,
+                                          AppRoutes.enderecosPage
+                                      );
+                                    }
+                                ),
+                                SizedBox(width: 10),
+                                MyButton(
+                                    text: "Ver histórico",
+                                    icon: ImageConstant.imgSend,
                                     onTap: () {
                                       // Função para trocar de tela ao pressionar o botão
                                       Navigator.pushNamed(
                                         context,
-                                        AppRoutes.enderecosPage
+                                        AppRoutes.historicoScreen,
                                       );
-                                    },
-                                    text: "Agendar coleta",
-                                    leftIcon: Container(
-                                        margin: getMargin(right: 10),
-                                        child: CustomImageView(
-                                            svgPath: ImageConstant.imgSend)),
-                                    buttonStyle: CustomButtonStyles
-                                        .fillLightblueA700
-                                        .copyWith(
-                                            fixedSize:
-                                                MaterialStateProperty.all<Size>(
-                                                    Size(getHorizontalSize(181),
-                                                        getVerticalSize(50)))),
-                                    buttonTextStyle: CustomTextStyles
-                                        .bodyLargeRobotoMonoWhiteA700),
-                                Container(
-                                    width: getHorizontalSize(181),
-                                    margin: getMargin(left: 10),
-                                    padding: getPadding(
-                                        left: 20, top: 2, right: 20, bottom: 2),
-                                    decoration: AppDecoration.fill4.copyWith(
-                                        borderRadius:
-                                            BorderRadiusStyle.roundedBorder14),
-                                    child: Row(children: [
-                                      CustomImageView(
-                                          svgPath: ImageConstant.imgSend,
-                                          height: getVerticalSize(22),
-                                          width: getHorizontalSize(20),
-                                          margin:
-                                              getMargin(top: 11, bottom: 11)),
-                                      Container(
-                                          width: getHorizontalSize(98),
-                                          margin: getMargin(left: 16, top: 1),
-                                          child: Text("Historico de coletas",
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.center,
-                                              style: CustomTextStyles
-                                                  .bodyLargeRobotoMonoWhiteA700))
-                                    ]))
-                              ])),
+                                    }
+                                ),
+                              ]
+                          )
+                      ),
                       CustomImageView(
                           imagePath: ImageConstant.imgRectangle2,
                           height: getVerticalSize(300),
@@ -134,14 +143,14 @@ class HomeScreen extends StatelessWidget {
                                 padding: getPadding(left: 10, top: 7),
                                 child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text("Article Title",
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.left,
                                           style:
-                                              CustomTextStyles.titleLargeBold),
+                                          CustomTextStyles.titleLargeBold),
                                       Container(
                                           width: getHorizontalSize(164),
                                           margin: getMargin(top: 4),
@@ -151,14 +160,22 @@ class HomeScreen extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.left,
                                               style:
-                                                  theme.textTheme.titleSmall))
+                                              theme.textTheme.titleSmall))
                                     ]))
                           ]))
                     ])),
             bottomNavigationBar:
-                CustomBottomBar(onChanged: (BottomBarEnum type) {
-              Navigator.pushNamed(
-                  navigatorKey.currentContext!, getCurrentRoute(type));
+            CustomBottomBar(onChanged: (BottomBarEnum type) {
+              if (type.index == 0) {
+                Navigator.pushNamed(context, AppRoutes.homeScreen);
+              } else if (type.index == 1) {
+                Navigator.pushNamed(context, AppRoutes.recompensasPage);
+              } else if (type.index == 2) {
+                Navigator.pushNamed(context, AppRoutes.homeScreen);
+              } else {
+              }
+
+              // DEBUGGING_FLAG
             })));
   }
 
