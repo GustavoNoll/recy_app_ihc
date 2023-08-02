@@ -8,6 +8,7 @@ import 'package:gustavo_s_application2/widgets/app_bar/appbar_title.dart';
 import 'package:gustavo_s_application2/widgets/app_bar/custom_app_bar.dart';
 import 'package:gustavo_s_application2/widgets/custom_bottom_bar.dart';
 import 'package:gustavo_s_application2/widgets/custom_elevated_button.dart';
+import 'package:gustavo_s_application2/routes/app_routes.dart';
 
 // ignore_for_file: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -58,6 +59,13 @@ class HomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CustomElevatedButton(
+                                    onTap: () {
+                                      // Função para trocar de tela ao pressionar o botão
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.enderecosPage
+                                      );
+                                    },
                                     text: "Agendar coleta",
                                     leftIcon: Container(
                                         margin: getMargin(right: 10),
