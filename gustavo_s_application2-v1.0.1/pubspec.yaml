@@ -1,9 +1,9 @@
 name: gustavo_s_application2
 description: A new Flutter project.
 version: 1.0.0+1
-environment: 
-  sdk: '>=2.12.0 <3.0.0'
-dependencies: 
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+dependencies:
   flutter: 
     sdk: flutter
   cached_network_image: ^3.2.1
@@ -14,7 +14,8 @@ dev_dependencies:
     sdk: flutter
 flutter: 
   uses-material-design: true
-  assets: 
+  assets:
+    - assets/images/image_not_found.png
     - assets/
     - assets/images/
   fonts: 

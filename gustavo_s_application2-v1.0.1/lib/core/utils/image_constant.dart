@@ -13,7 +13,7 @@ class ImageConstant {
 
   static String imgRectangle3 = 'assets/images/img_rectangle3.png';
 
-  static String imgPointsimage = 'assets/images/img_pointsimage.png';
+  static String imgPointsimage = 'assets/images/points.png';
 
   static String imgContent = 'assets/images/img_content.png';
 
