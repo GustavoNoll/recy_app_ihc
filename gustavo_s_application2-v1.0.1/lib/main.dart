@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gustavo_s_application2/screens/common/app.dart';
 import 'package:gustavo_s_application2/theme/theme_helper.dart';
-import 'package:gustavo_s_application2/screens/routes.dart';
+import 'package:gustavo_s_application2/routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,8 @@ class NewMyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.standard,
       ),
-      title: 'gustavo_s_application2',
+      title: 'ReciApp',
+      home: App(),
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.home.name,
       routes: AppRoutes.routes,

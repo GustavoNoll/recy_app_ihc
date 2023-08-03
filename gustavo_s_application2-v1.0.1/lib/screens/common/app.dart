@@ -1,57 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:gustavo_s_application2/screens/routes.dart';
-import 'package:gustavo_s_application2/screens/common/points.dart';
+import 'package:gustavo_s_application2/screens/home/home.dart';
+import 'package:gustavo_s_application2/screens/rewards/rewards.dart';
 
-class AppScreen extends StatelessWidget {
-  AppScreen({required this.title, this.currentIndex, required this.body});
+AppState? currentState;
 
-  int? currentIndex;
-  Widget body;
-  String title;
+class App extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return AppState();
+  }
+}
+
+class AppState extends State<App> with SingleTickerProviderStateMixin {
+  TabController? mainAppTabController;
+
+  @override
+  void initState() {
+    super.initState();
+    mainAppTabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void switchToTab(int index) {
+    setState(() {
+      mainAppTabController!.animateTo(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 239, 239, 244),
-      appBar: AppBar(
-        title: Text(title),
-        actions: [
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Points(1000),
+    currentState = this;
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          backgroundColor: Color.fromARGB(242, 242, 247, 255),
+          appBar: AppBar(
+            title: Text('ReciApp'),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: body,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex == null ? -1 : currentIndex!,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home.name, (_) => false);
-          } else if (index == 1) {
-            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.rewards.name, (_) => false);
-          } else if (index == 2) {
-            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home.name, (_) => false);
-          } else {}
-        },
-        items: [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home),
+          body: TabBarView(
+            controller: mainAppTabController,
+            children: [
+              HomeScreen(),
+              RewardsScreen(),
+              HomeScreen(),
+            ],
           ),
-          BottomNavigationBarItem(
-            label: 'Recompensas',
-            icon: Icon(Icons.shopping_cart),
+          bottomNavigationBar: Container(
+            child: TabBar(
+              controller: mainAppTabController,
+              tabs: [
+                Tab(icon: Icon(Icons.home), text: 'Home', iconMargin: EdgeInsets.symmetric(vertical: 1), height: 50),
+                Tab(icon: Icon(Icons.shopping_cart), text: 'Recompensas', iconMargin: EdgeInsets.symmetric(vertical: 1), height: 50),
+                Tab(icon: Icon(Icons.settings), text: 'Configuraçãos', iconMargin: EdgeInsets.symmetric(vertical: 1), height: 50),
+              ],
+              labelColor: Colors.blue,
+              unselectedLabelColor: Colors.grey.shade600,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorPadding: EdgeInsets.symmetric(vertical: 3, horizontal: 0),
+              indicatorColor: Colors.blue,
+            ),
           ),
-          BottomNavigationBarItem(
-            label: 'Configurações',
-            icon: Icon(Icons.settings),
-          ),
-        ],
-      ),
+        )
     );
   }
-
 }

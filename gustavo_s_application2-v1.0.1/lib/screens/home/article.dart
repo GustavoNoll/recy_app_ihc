@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gustavo_s_application2/screens/common/app.dart';
+import 'package:gustavo_s_application2/screens/common/page.dart';
+import 'package:gustavo_s_application2/screens/common/screen.dart';
 
 class Article extends StatelessWidget {
   final String title;
@@ -14,7 +16,10 @@ class Article extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AppScreen(title: 'Article', body: Text("Test"));
+            return CustomScreen(
+                title: 'Artigo',
+                body: Text("Test")
+            );
           }));
         },
         child:
@@ -37,7 +42,6 @@ class Article extends StatelessWidget {
               ),
               Container(
                 width: MediaQuery.of(context).size.width-180,
-                color: Colors.red,
                 padding: EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,19 +52,34 @@ class Article extends StatelessWidget {
                       title,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
+                    SizedBox(height: 5,),
                     Expanded(
                         child: Text(
                           content,
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
-                          maxLines: 6,
+                          maxLines: 5,
+                          textAlign: TextAlign.justify,
                         )
                     ),
-                    Text(
-                      "ler mais...",
-                      textAlign: TextAlign.right,
-                      softWrap: false,
+                    Row(
+                      children: [
+                        Expanded(child: SizedBox()),
+                        Text(
+                          "ler mais...",
+                          textAlign: TextAlign.right,
+                          softWrap: false,
+                          style: TextStyle(
+                            color: Colors.indigo.shade500
+                          ),
+                        ),
+                        SizedBox(width: 10,)
+                      ],
                     )
                   ],
                 ),

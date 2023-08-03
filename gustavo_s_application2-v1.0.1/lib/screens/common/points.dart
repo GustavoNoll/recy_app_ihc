@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gustavo_s_application2/images.dart';
 
 class Points extends StatelessWidget {
-  final int cost;
-
-  Points(this.cost);
+  final String cost;
+  final TextStyle? style;
+  Points(this.cost, {this.style});
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(fontSize: 13, color: Colors.black).merge(this.style);
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -23,11 +24,8 @@ class Points extends StatelessWidget {
               height: 20,
             ),
             Text(
-              (" " + cost.toString()),
-              style: TextStyle(
-                  fontSize: 13,
-                color: Colors.black
-              ),
+              (" " + cost),
+              style: style,
             ),
           ],
         )

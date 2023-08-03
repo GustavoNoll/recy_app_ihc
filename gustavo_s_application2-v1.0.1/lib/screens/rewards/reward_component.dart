@@ -14,9 +14,10 @@ class RewardDialog extends StatelessWidget {
     return Dialog(
         child: Container(
           padding: EdgeInsets.all(10),
-          color: Colors.red,
           child: Container(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
                   imagePath,
@@ -34,19 +35,24 @@ class RewardDialog extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 17,
-                      overflow: TextOverflow.ellipsis
+                Container(
+                  constraints: BoxConstraints(maxHeight: 200),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
                 Row(
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Points(cost),
+                    Points("Resgatar por " + cost.toString() + " pontos"),
                   ],
                 )
               ],
@@ -108,7 +114,7 @@ class RewardItem extends StatelessWidget {
                       )
                   ),
                   SizedBox(width: 5),
-                  Points(cost),
+                  Points(cost.toString()),
                 ],
               )
             ],
