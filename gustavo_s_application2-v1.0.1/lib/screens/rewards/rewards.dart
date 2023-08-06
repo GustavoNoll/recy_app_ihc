@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gustavo_s_application2/core/app_export.dart';
-import 'package:gustavo_s_application2/images.dart';
-import 'package:gustavo_s_application2/screens/common/page.dart';
+import 'package:gustavo_s_application2/data/rewards_data.dart';
 import 'package:gustavo_s_application2/screens/rewards/reward_component.dart';
 import 'package:gustavo_s_application2/screens/common/tag_selector.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/constants/rewards.dart';
+import '../../main.dart';
+import '../common/points.dart';
 
 class RewardsScreen extends StatefulWidget {
   const RewardsScreen({Key? key}) : super(key: key);
@@ -12,63 +15,108 @@ class RewardsScreen extends StatefulWidget {
 }
 
 class RewardsScreenState extends State<RewardsScreen> {
-  List<RewardItem> rewards = [
-    RewardItem(title: '5% off no Walmart', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 1, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 12, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 1234, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
-    RewardItem(title: '5% off no Walmart', description: 'Compre produtos em supermercados Walmart e receba 5% de deconto. ', cost: 123, imagePath: Images.walmart),
+  String _searchTerm = "";
+  List<RewardCategories> _categories = [
+    RewardCategories.CUPOM,
+    RewardCategories.DESCONTO,
+    RewardCategories.PRODUTO
   ];
+
+  void setSearchTerm(String searchTerm) {
+    setState(() {
+      _searchTerm = searchTerm;
+    });
+  }
+
+  void toggleTag(RewardCategories tag) {
+    setState(() {
+      if (_categories.contains(tag)) {
+        _categories.remove(tag);
+      } else {
+        _categories.add(tag);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CustomPage(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      hintText: 'Descontos em produtos de limpeza...',
-                    ),
-                  )
+              Text("Você possui ", style: TextStyle(fontSize: 24)),
+              Points(
+                "${context.watch<UserDataState>().points}",
+                style: TextStyle(fontSize: 20),
               ),
-              Container(
-                  padding: EdgeInsets.all(10),
-                  child: TagBar(
-                    tags: [
-                      TagSelection("Descontos", false),
-                      TagSelection("Cupons", false),
-                      TagSelection("Produtos", false),
-                    ],
-                    onChange: (tag) {
-                      print(tag.label + " is now " + tag.selected.toString());
-                    },
-                  )
+              Text("ponto(s)!", style: TextStyle(fontSize: 24)),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: TextField(
+            maxLines: 1,
+            decoration: InputDecoration(
+              hintText: "Pesquise por palavras que aparecem no título.",
+            ),
+            onSubmitted: setSearchTerm,
+          ),
+        ),
+        Container(
+            padding: EdgeInsets.all(10),
+            child: TagBar(
+              tags: [
+                TagSelection("Descontos",
+                    _categories.contains(RewardCategories.DESCONTO)),
+                TagSelection(
+                    "Cupons", _categories.contains(RewardCategories.CUPOM)),
+                TagSelection(
+                    "Produtos", _categories.contains(RewardCategories.PRODUTO)),
+              ],
+              onChange: (tag) {
+                switch (tag.label) {
+                  case "Descontos":
+                    toggleTag(RewardCategories.DESCONTO);
+                    break;
+                  case "Cupons":
+                    toggleTag(RewardCategories.CUPOM);
+                    break;
+                  case "Produtos":
+                    toggleTag(RewardCategories.PRODUTO);
+                    break;
+                  default:
+                    print("Unexpected label: ${tag.label}.");
+                    break;
+                }
+              },
+            )),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                alignment: WrapAlignment.spaceBetween,
+                runAlignment: WrapAlignment.spaceBetween,
+                children: [
+                  for (var reward in rewards.where((element) =>
+                      element.categorias.any(
+                          (categoria) => _categories.contains(categoria)) &&
+                      element.title.contains(_searchTerm)))
+                    RewardItem(reward: reward)
+                ],
               ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  alignment: WrapAlignment.spaceBetween,
-                  runAlignment: WrapAlignment.spaceBetween,
-                  children: rewards,
-                ),
-              ),
-            ]
-        )
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

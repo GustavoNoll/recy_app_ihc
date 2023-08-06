@@ -1,83 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:gustavo_s_application2/data/rewards_data.dart';
 import 'package:gustavo_s_application2/screens/common/points.dart';
+import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class RewardDialog extends StatelessWidget {
-  final String title;
-  final String description;
-  final int cost;
-  final String imagePath;
+  final RewardData reward;
 
-  RewardDialog({required this.title, required this.description, required this.cost, required this.imagePath});
+  RewardDialog({
+    required this.reward,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
         child: Container(
-          padding: EdgeInsets.all(10),
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  imagePath,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(height: 10),
-                Text(
-                  title,
-                  textWidthBasis: TextWidthBasis.parent,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  constraints: BoxConstraints(maxHeight: 200),
-                  child: SingleChildScrollView(
-                    child: Text(
-                      description,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Points("Resgatar por " + cost.toString() + " pontos"),
-                  ],
-                )
-              ],
+      padding: EdgeInsets.all(10),
+      child: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              reward.imagePath,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-          ),
-        )
-    );
+            SizedBox(height: 10),
+            Text(
+              reward.title,
+              textWidthBasis: TextWidthBasis.parent,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis),
+            ),
+            SizedBox(height: 10),
+            Container(
+              constraints: BoxConstraints(maxHeight: 200),
+              child: SingleChildScrollView(
+                child: Text(
+                  reward.description,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TapRegion(
+                  onTapInside: (_) {
+                    if (Provider.of<UserDataState>(context, listen: false)
+                        .claimReward(reward.id)) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("O item ${reward.title} foi resgatado."),
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text("O item ${reward.title} não foi resgatado."),
+                      ));
+                    }
+                  },
+                  child: Points(
+                      "Resgatar por " + reward.cost.toString() + " pontos"),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }
 
 class RewardItem extends StatelessWidget {
-  final String title;
-  final String description;
-  final int cost;
-  final String imagePath;
+  final RewardData reward;
 
-  RewardItem({required this.title, required this.description, required this.cost, required this.imagePath});
+  RewardItem({
+    required this.reward,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          showDialog(context: context, builder: (context) {
-            return RewardDialog(title: title, description: description, cost: cost, imagePath: imagePath);
-          });
+          showDialog(
+              context: context,
+              builder: (context) {
+                return RewardDialog(
+                  reward: this.reward,
+                );
+              });
         },
         child: Container(
           padding: EdgeInsets.all(10),
@@ -85,14 +105,12 @@ class RewardItem extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: Colors.white,
           ),
-          constraints: BoxConstraints(
-              maxHeight: 500
-          ),
+          constraints: BoxConstraints(maxHeight: 500),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                imagePath,
+                reward.imagePath,
                 width: double.infinity,
                 height: 300,
                 fit: BoxFit.cover,
@@ -104,22 +122,18 @@ class RewardItem extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Text(
-                        title,
-                        textWidthBasis: TextWidthBasis.parent,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 17,
-                            overflow: TextOverflow.ellipsis
-                        ),
-                      )
-                  ),
+                    reward.title,
+                    textWidthBasis: TextWidthBasis.parent,
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: 17, overflow: TextOverflow.ellipsis),
+                  )),
                   SizedBox(width: 5),
-                  Points(cost.toString()),
+                  Points(reward.cost.toString()),
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

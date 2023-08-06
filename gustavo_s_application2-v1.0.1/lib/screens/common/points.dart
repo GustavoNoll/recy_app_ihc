@@ -8,7 +8,8 @@ class Points extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontSize: 13, color: Colors.black).merge(this.style);
+    TextStyle style =
+        TextStyle(fontSize: 13, color: Colors.black).merge(this.style);
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -28,7 +29,6 @@ class Points extends StatelessWidget {
               style: style,
             ),
           ],
-        )
-    );
+        ));
   }
 }

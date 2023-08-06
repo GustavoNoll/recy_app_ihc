@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gustavo_s_application2/screens/home/home.dart';
 import 'package:gustavo_s_application2/screens/rewards/rewards.dart';
 
+import '../config/config.dart';
+
 AppState? currentState;
 
 class App extends StatefulWidget {
@@ -46,25 +48,37 @@ class AppState extends State<App> with SingleTickerProviderStateMixin {
             children: [
               HomeScreen(),
               RewardsScreen(),
-              HomeScreen(),
+              ConfigScreen(),
             ],
           ),
           bottomNavigationBar: Container(
             child: TabBar(
               controller: mainAppTabController,
               tabs: [
-                Tab(icon: Icon(Icons.home), text: 'Home', iconMargin: EdgeInsets.symmetric(vertical: 1), height: 50),
-                Tab(icon: Icon(Icons.shopping_cart), text: 'Recompensas', iconMargin: EdgeInsets.symmetric(vertical: 1), height: 50),
-                Tab(icon: Icon(Icons.settings), text: 'Configuraçãos', iconMargin: EdgeInsets.symmetric(vertical: 1), height: 50),
+                Tab(
+                    icon: Icon(Icons.home),
+                    text: 'Home',
+                    iconMargin: EdgeInsets.symmetric(vertical: 1),
+                    height: 50),
+                Tab(
+                    icon: Icon(Icons.shopping_cart),
+                    text: 'Recompensas',
+                    iconMargin: EdgeInsets.symmetric(vertical: 1),
+                    height: 50),
+                Tab(
+                    icon: Icon(Icons.settings),
+                    text: 'Configurações',
+                    iconMargin: EdgeInsets.symmetric(vertical: 1),
+                    height: 50),
               ],
               labelColor: Colors.blue,
               unselectedLabelColor: Colors.grey.shade600,
               indicatorSize: TabBarIndicatorSize.label,
-              indicatorPadding: EdgeInsets.symmetric(vertical: 3, horizontal: 0),
+              indicatorPadding:
+                  EdgeInsets.symmetric(vertical: 3, horizontal: 0),
               indicatorColor: Colors.blue,
             ),
           ),
-        )
-    );
+        ));
   }
 }
