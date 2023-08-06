@@ -3,13 +3,12 @@ import 'package:gustavo_s_application2/screens/common/app.dart';
 import 'package:gustavo_s_application2/screens/common/page.dart';
 import 'package:gustavo_s_application2/screens/common/screen.dart';
 
-class Article extends StatelessWidget {
-  final String title;
-  final String content;
-  final String imagePath;
-  final int likes;
+import '../../data/articles_data.dart';
 
-  Article({ required this.title, required this.content, required this.imagePath, required this.likes});
+class ArticleCard extends StatelessWidget {
+  final ArticleData article;
+
+  ArticleCard({required this.article});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +16,21 @@ class Article extends StatelessWidget {
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return CustomScreen(
-                title: 'Artigo',
-                body: Text("Test")
-            );
+                title: this.article.title,
+                body: Container(
+                  child: Column(children: [
+                    Image.asset(
+                      article.imagePath,
+                      fit: BoxFit.cover,
+                    ),
+                    Text(this.article.content),
+                    VerticalDivider(),
+                    Text("Fonte: ${this.article.source}"),
+                  ]),
+                ));
           }));
         },
-        child:
-        Container(
+        child: Container(
           constraints: BoxConstraints(
             maxHeight: 150,
           ),
@@ -35,13 +42,13 @@ class Article extends StatelessWidget {
           child: Row(
             children: [
               Image.asset(
-                imagePath,
+                article.imagePath,
                 width: 160,
                 height: double.infinity,
                 fit: BoxFit.cover,
               ),
               Container(
-                width: MediaQuery.of(context).size.width-180,
+                width: MediaQuery.of(context).size.width - 180,
                 padding: EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +56,7 @@ class Article extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      title,
+                      article.title,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
                       style: TextStyle(
@@ -57,16 +64,17 @@ class Article extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Expanded(
                         child: Text(
-                          content,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          maxLines: 5,
-                          textAlign: TextAlign.justify,
-                        )
-                    ),
+                      article.description,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      maxLines: 5,
+                      textAlign: TextAlign.justify,
+                    )),
                     Row(
                       children: [
                         Expanded(child: SizedBox()),
@@ -74,11 +82,11 @@ class Article extends StatelessWidget {
                           "ler mais...",
                           textAlign: TextAlign.right,
                           softWrap: false,
-                          style: TextStyle(
-                            color: Colors.indigo.shade500
-                          ),
+                          style: TextStyle(color: Colors.indigo.shade500),
                         ),
-                        SizedBox(width: 10,)
+                        SizedBox(
+                          width: 10,
+                        )
                       ],
                     )
                   ],
@@ -86,7 +94,6 @@ class Article extends StatelessWidget {
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }
