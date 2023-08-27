@@ -75,6 +75,9 @@ class ClaimedRewardCard extends StatelessWidget {
                 Text(
                   "Resgatado em: ${claimedReward.claimedAt.toString()}",
                 ),
+                Text(
+                  "Código: ${claimedReward.code}",
+                ),
               ],
             ),
           ),

@@ -14,8 +14,8 @@ import 'data/user_data.dart';
 class UserDataState with ChangeNotifier {
   int _points = 1000;
   List<ClaimedReward> _claimedRewards = [
-    ClaimedReward(1, DateTime.now().subtract(Duration(days: 7))),
-    ClaimedReward(4, DateTime.now().subtract(Duration(days: 3)))
+    ClaimedReward(1, DateTime.now().subtract(Duration(days: 7)), generateRandomUUID()),
+    ClaimedReward(4, DateTime.now().subtract(Duration(days: 3)), generateRandomUUID())
   ];
 
   int get points => _points;
@@ -29,7 +29,7 @@ class UserDataState with ChangeNotifier {
     }
 
     _points -= rewards[index].cost;
-    _claimedRewards.add(ClaimedReward(rewardId, DateTime.now()));
+    _claimedRewards.add(ClaimedReward(rewardId, DateTime.now(), generateRandomUUID()));
     notifyListeners();
 
     return true;
